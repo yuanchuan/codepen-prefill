@@ -35,6 +35,14 @@ Edit a JS file on CodePen:
 $ codepen example.js
 ```
 
+## Otherwise Execute directly
+
+Using [npx](https://blog.npmjs.org/post/162869356040/introducing-npx-an-npm-package-runner) which is a package runner bundled in `npm` 
+
+```bash
+npx @yuanchuan/codepen-cli index.html
+```
+
 ## Options
 
 #### keep-inline
