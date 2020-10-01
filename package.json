@@ -1,0 +1,25 @@
+{
+  "name": "@yuanchuan/codepen-cli",
+  "version": "1.0.1",
+  "description": "Create new pen from local html/js/css files with ease",
+  "repository": {
+    "url": "git://github.com/yuanchuan/codepen-cli.git",
+    "type": "git"
+  },
+  "bin": {
+    "codepen": "src/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yuanchuan <yuanchuan23@gmail.com> (https://yuanchuan.dev)",
+  "homepage": "https://github.com/yuanchuan/codepen-cli",
+  "bugs": {
+    "url": "https://github.com/yuanchuan/codepen-cli/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "open": "^7.3.0"
+  }
+}
