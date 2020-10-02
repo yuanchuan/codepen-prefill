@@ -116,7 +116,7 @@ function getCSSData(input, options = {}) {
     less: 'less',
     scss: 'scss',
     sass: 'sass',
-    stylus: 'stylus'
+    styl: 'stylus'
   };
   return {
     css: input,
