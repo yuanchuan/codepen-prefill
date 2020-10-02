@@ -12,7 +12,7 @@ if (typeof inputFileName === 'undefined') {
   exit();
 }
 
-const source = path.join(process.cwd(), inputFileName);
+const source = path.resolve(inputFileName);
 const extname = path.extname(source).substr(1);
 
 let sourceContent = '';
