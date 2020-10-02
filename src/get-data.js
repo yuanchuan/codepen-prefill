@@ -71,7 +71,7 @@ function getContent($, $elements, options) {
   });
 
   return {
-    external: unique(external).join(','),
+    external: unique(external).join(';'),
     embedded: unique(embedded).join('\n\n')
   }
 }
