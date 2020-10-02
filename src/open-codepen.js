@@ -43,7 +43,7 @@ function composeHTML(data) {
   `;
 }
 
-function openCodePenLink(data, fn = function() {}) {
+function openCodePen(data, fn = function() {}) {
   let filename = path.join(tmpdir, Date.now() + '.html');
   try {
     fs.writeFileSync(filename, composeHTML(data));
@@ -58,9 +58,11 @@ function openCodePenLink(data, fn = function() {}) {
           try { fs.unlinkSync(filename) } catch (e) {}
           fn();
         }, 3000);
+      } else {
+        fn();
       }
     })
     .catch(fn);
 }
 
-module.exports = openCodePenLink;;
+module.exports = openCodePen;;

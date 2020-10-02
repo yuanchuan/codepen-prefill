@@ -76,6 +76,14 @@ function getContent($, $elements, options) {
   }
 }
 
+function getEditorsFlag({ html, css, js }) {
+  let flag = [0,0,0];
+  if (html.length) flag[0] = 1;
+  if (css.length) flag[1] = 1;
+  if (js.length) flag[2] = 1;
+  return flag.join('');
+}
+
 function getHTMLData(html, options = {}) {
   let $ = cheerio.load(html, { decodeEntities: false });
   let $body = $('body');
@@ -97,16 +105,24 @@ function getHTMLData(html, options = {}) {
 
   let scriptContent = getContent($, $scripts, options);
   let styleContent = getContent($, $styles, options);
-  let body = $body.html();
+
+  let html = $body.html();
+  let css = styleContent.embedded;
+  let js = scriptContent.embedded;
+  let css_external = styleContent.external;
+  let js_external = scriptContent.external;
+
+  let editors = getEditorsFlag({ html, css, js });
 
   return {
     title,
     description,
-    css_external: styleContent.external,
-    css: styleContent.embedded,
-    js_external: scriptContent.external,
-    js: scriptContent.embedded,
-    html: body
+    editors,
+    html,
+    css,
+    js,
+    css_external,
+    js_external
   }
 }
 
@@ -119,6 +135,7 @@ function getCSSData(input, options = {}) {
     styl: 'stylus'
   };
   return {
+    editors: '010',
     css: input,
     css_pre_processor: preProccessors[extname] || 'none'
   }
@@ -126,12 +143,14 @@ function getCSSData(input, options = {}) {
 
 function getJSData(input) {
   return {
+    editors: '001',
     js: input
   }
 }
 
 function getTSData(input) {
   return {
+    editors: '001',
     js: input,
     js_pre_processor: 'typescript'
   }
@@ -139,6 +158,7 @@ function getTSData(input) {
 
 function getMarkdownData(input) {
   return {
+    editors: '100',
     html: input,
     html_pre_processor: 'markdown'
   }
