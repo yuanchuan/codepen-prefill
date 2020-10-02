@@ -3,9 +3,13 @@ const os = require('os');
 const path = require('path');
 const open = require('open');
 
-const tempdir = process.env.TMPDIR
-  || os.tmpdir()
-  || __dirname;
+let tmpdir = process.env.TMPDIR || os.tmpdir();
+// Cleanup only when the system tmpdir is unavailable
+let needCleanup = !tmpdir;
+
+if (!tmpdir) {
+  tmpdir = __dirname;
+}
 
 function composeHTML(data) {
   let value = JSON.stringify(data)
@@ -39,8 +43,8 @@ function composeHTML(data) {
   `;
 }
 
-function openCodePenLink(data, fn) {
-  let filename = path.join(tempdir, Date.now() + '.html');
+function openCodePenLink(data, fn = function() {}) {
+  let filename = path.join(tmpdir, Date.now() + '.html');
   try {
     fs.writeFileSync(filename, composeHTML(data));
   } catch (error) {
@@ -49,15 +53,14 @@ function openCodePenLink(data, fn) {
 
   open(filename)
     .then(() => {
-      setTimeout(() => {
-        // cleanup
-        try { fs.unlinkSync(filename) } catch (e) {}
-        fn();
-      }, 1000);
+      if (needCleanup) {
+        setTimeout(() => {
+          try { fs.unlinkSync(filename) } catch (e) {}
+          fn();
+        }, 3000);
+      }
     })
-    .catch(error => {
-      fn(error);
-    });
+    .catch(fn);
 }
 
 module.exports = openCodePenLink;;
