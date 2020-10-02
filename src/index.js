@@ -5,7 +5,7 @@ const path = require('path');
 const getData = require('./get-data');
 const openCodePen = require('./open-codepen');
 
-let { inputFileName, inputOption } = getInputArgs();
+let { inputFileName, inputOptions } = getInputArgs();
 
 if (typeof inputFileName === 'undefined') {
   help();
@@ -28,11 +28,16 @@ try {
 
 const { data, error } = getData(sourceContent, {
   extname,
-  keepEmbedded: inputOption === '--keep-embedded'
+  keepEmbedded: inputOptions.includes('--keep-embedded')
 });
 
 if (error) {
   exit(error.message);
+}
+
+if (inputOptions.includes('--data')) {
+  console.log(data);
+  exit();
 }
 
 openCodePen(data, error => {
@@ -45,7 +50,7 @@ function getInputArgs() {
   let input = process.argv.slice(2);
   return {
     inputFileName: input.find(n => !n.startsWith('--')),
-    inputOption: input.find(n => n.startsWith('--')),
+    inputOptions: input.filter(n => n.startsWith('--')),
   }
 }
 
@@ -56,6 +61,7 @@ Usage:
 
 Options:
   --keep-embedded: Keep embedded styles/scripts inside html
+  --data:          Output the prefilled data
   --help:          Display help info
 
 Supported filename types by extension:
@@ -67,5 +73,5 @@ function exit(message) {
   if (message) {
     console.error('\n', message);
   }
-  process.exit(1);
+  process.exit();
 }

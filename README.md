@@ -65,6 +65,7 @@ Usage:
 
 Options:
   --keep-embedded: Keep embedded styles/scripts inside html
+  --data:          Output the prefilled data
   --help:          Display help info
 
 Supported filename types by extension:
