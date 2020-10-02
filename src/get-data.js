@@ -3,10 +3,10 @@ const cheerio = require('cheerio');
 
 const EXTERNAL = 'EXTERNAL';
 const LOCAL = 'LOCAL';
-const INLINE = 'INLINE';
+const EMBEDDED = 'EMBEDDED';
 
 function getType(url) {
-  if (typeof url === "undefined" || !url.length) return INLINE;
+  if (typeof url === "undefined" || !url.length) return EMBEDDED;
   if (/^http|^\/{2}.+/.test(url)) return EXTERNAL;
   return LOCAL;
 }
@@ -31,7 +31,7 @@ function unique(array) {
 
 function getContent($, $elements, options) {
   let external = [];
-  let inline = [];
+  let embedded = [];
   let $body = $('body');
 
   $elements.each(function() {
@@ -46,12 +46,12 @@ function getContent($, $elements, options) {
 
     else if (type === LOCAL) {
       let result = getLocalFile(url);
-      inline.push(result);
+      embedded.push(result);
       $elem.remove();
     }
 
-    else if (type === INLINE) {
-      if (options.keepInline) {
+    else if (type === EMBEDDED) {
+      if (options.keepEmbedded) {
         let tag = $elem.get(0).tagName;
         if (tag == 'style') {
           $body.prepend($elem);
@@ -61,7 +61,7 @@ function getContent($, $elements, options) {
       } else {
         let result = $elem.html();
         if (result.length) {
-          inline.push(result);
+          embedded.push(result);
         }
       }
       $elem.remove();
@@ -70,7 +70,7 @@ function getContent($, $elements, options) {
 
   return {
     external: unique(external).join(','),
-    inline: unique(inline).join('\n\n')
+    embedded: unique(embedded).join('\n\n')
   }
 }
 
@@ -101,9 +101,9 @@ function getHTMLData(html, options = {}) {
     title,
     description,
     css_external: styleContent.external,
-    css: styleContent.inline,
+    css: styleContent.embedded,
     js_external: scriptContent.external,
-    js: scriptContent.inline,
+    js: scriptContent.embedded,
     html: body
   }
 }

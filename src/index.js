@@ -28,7 +28,7 @@ try {
 
 const { data, error } = getData(sourceContent, {
   extname,
-  keepInline: inputOption === '--keep-inline'
+  keepEmbedded: inputOption === '--keep-embedded'
 });
 
 if (error) {
@@ -55,8 +55,8 @@ Usage:
   codepen <filename>
 
 Options:
-  --keep-inline: Keep inline styles/scripts inside html
-  --help:        Display help info
+  --keep-embedded: Keep embedded styles/scripts inside html
+  --help:          Display help info
 
 Supported filename types by extension:
   htm, html, md, markdown, js, ts, css, less, sass, scss, styl
