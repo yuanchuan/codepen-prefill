@@ -1,6 +1,7 @@
 const fs = require('fs');
 const cheerio = require('cheerio');
 const URL = require('url');
+const format = require('./format');
 
 const EXTERNAL = 'EXTERNAL';
 const LOCAL = 'LOCAL';
@@ -84,8 +85,8 @@ function getEditorsFlag({ html, css, js }) {
   return flag.join('');
 }
 
-function getHTMLData(html, options = {}) {
-  let $ = cheerio.load(html, { decodeEntities: false });
+function getHTMLData(input, options = {}) {
+  let $ = cheerio.load(input, { decodeEntities: false });
   let $body = $('body');
 
   let title = $('title').eq(0).text();
@@ -106,9 +107,9 @@ function getHTMLData(html, options = {}) {
   let scriptContent = getContent($, $scripts, options);
   let styleContent = getContent($, $styles, options);
 
-  let html = $body.html();
-  let css = styleContent.embedded;
-  let js = scriptContent.embedded;
+  let html = format.trimEmptyLines($body.html());
+  let css = format.normalizeIndent(styleContent.embedded);
+  let js = format.trimEmptyLines(scriptContent.embedded);
   let css_external = styleContent.external;
   let js_external = scriptContent.external;
 
