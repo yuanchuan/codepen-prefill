@@ -59,7 +59,7 @@ function getContent($, $elements, options) {
           $body.append($elem);
         }
       } else {
-        let result = $elem.html().trim();
+        let result = $elem.html();
         if (result.length) {
           inline.push(result);
         }
