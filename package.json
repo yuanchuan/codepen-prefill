@@ -1,6 +1,6 @@
 {
   "name": "@yuanchuan/codepen-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Create new pen from local html/js/css files with ease",
   "repository": {
     "url": "git://github.com/yuanchuan/codepen-cli.git",
