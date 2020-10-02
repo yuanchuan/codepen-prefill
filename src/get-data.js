@@ -1,5 +1,6 @@
 const fs = require('fs');
 const cheerio = require('cheerio');
+const URL = require('url');
 
 const EXTERNAL = 'EXTERNAL';
 const LOCAL = 'LOCAL';
@@ -45,7 +46,8 @@ function getContent($, $elements, options) {
     }
 
     else if (type === LOCAL) {
-      let result = getLocalFile(url);
+      let { pathname } = URL.parse(url);
+      let result = getLocalFile(pathname);
       embedded.push(result);
       $elem.remove();
     }
