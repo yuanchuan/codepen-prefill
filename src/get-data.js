@@ -35,6 +35,7 @@ function getContent($, $elements, options) {
   let external = [];
   let embedded = [];
   let $body = $('body');
+  let $head = $('<div></div>').prependTo($body);
 
   $elements.each(function() {
     let $elem = $(this);
@@ -56,10 +57,12 @@ function getContent($, $elements, options) {
     else if (type === EMBEDDED) {
       if (options.keepEmbedded) {
         let tag = $elem.get(0).tagName;
+        $cloned = $elem.clone();
+
         if (tag == 'style') {
-          $body.prepend($elem);
+          $head.append($cloned);
         } else {
-          $body.append($elem);
+          $body.append($cloned);
         }
       } else {
         let result = $elem.html();
@@ -70,6 +73,8 @@ function getContent($, $elements, options) {
       $elem.remove();
     }
   });
+
+  $head.replaceWith($head.html())
 
   return {
     external: unique(external).join(';'),
