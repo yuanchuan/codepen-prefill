@@ -1,5 +1,5 @@
-function trimEmptyLines(inputt) {
-  return inputt.replace(/^\n+|\n+$/g, '');
+function trimEmptyLines(input) {
+  return input.replace(/^\n+|\n+$/g, '');
 }
 
 function normalizeIndent(input) {

@@ -65,4 +65,4 @@ function openCodePen(data, fn = function() {}) {
     .catch(fn);
 }
 
-module.exports = openCodePen;;
+module.exports = openCodePen;
