@@ -1,21 +1,21 @@
 {
-  "name": "@yuanchuan/codepen-cli",
-  "version": "1.1.1",
+  "name": "codepen-prefill",
+  "version": "1.1.2",
   "description": "Create new pen from local html/js/css files with ease",
   "repository": {
-    "url": "git://github.com/yuanchuan/codepen-cli.git",
+    "url": "git://github.com/yuanchuan/codepen-prefill.git",
     "type": "git"
   },
   "bin": {
-    "codepen": "src/index.js"
+    "codepen-prefill": "src/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "yuanchuan <yuanchuan23@gmail.com> (https://yuanchuan.dev)",
-  "homepage": "https://github.com/yuanchuan/codepen-cli",
+  "homepage": "https://github.com/yuanchuan/codepen-prefill",
   "bugs": {
-    "url": "https://github.com/yuanchuan/codepen-cli/issues"
+    "url": "https://github.com/yuanchuan/codepen-prefill/issues"
   },
   "license": "MIT",
   "dependencies": {

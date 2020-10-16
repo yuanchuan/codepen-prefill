@@ -1,4 +1,4 @@
-# codepen-cli
+# codepen-prefill
 
 The live editor of [CodePen](https://codepen.io/) is not stable for me most of the time due to the network (in China...), so I always write demos on my local machine first,
 then open CodePen afterwards and copy/paste into the editor.
@@ -7,37 +7,37 @@ This tool is for saving this process by doing the following steps:
 
 1. Extract *external* or *embedded* **scripts** and **styles** from a local HTML file.
 2. Open a new CodePen editor with default browser.
-3. Prefill each html/js/css section and external depencencies in the editor automatically.
+3. Prefill each HTML/JS/CSS section and external depencencies in the editor automatically.
 
 The rest is to click the **SAVE** button.
 
 ## Installation
 
 ```bash
-$ npm install -g @yuanchuan/codepen-cli
+$ npm install -g codepen-prefill
 ```
 
 ## Example
 
 ```bash
-$ codepen index.html
+$ codepen-prefill index.html
 ```
 
 It can be used to preview a `markdown` file quickly on CodePen:
 
 ```bash
-$ codepen README.md
+$ codepen-prefill README.md
 ```
 
 Edit a JS file on CodePen:
 
 ```bash
-$ codepen example.js
+$ codepen-prefill example.js
 ```
 Using [npx](https://blog.npmjs.org/post/162869356040/introducing-npx-an-npm-package-runner) which is a package runner bundled in `npm`:
 
 ```bash
-$ npx @yuanchuan/codepen-cli index.html
+$ npx codepen-prefill index.html
 ```
 
 ## Options
@@ -61,7 +61,7 @@ $ codepen index.html --keep-embedded
 
 ```
 Usage:
-  codepen <filename>
+  codepen-prefill <filename>
 
 Options:
   --keep-embedded: Keep embedded styles/scripts inside html
