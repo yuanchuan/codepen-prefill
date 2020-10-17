@@ -42,14 +42,14 @@ $ npx codepen-prefill index.html
 
 ## Options
 
-#### keep-embedded
+#### --keep-embedded, --embed
 
-By default all the **embedded** script/style in HTML will be put into js/css sections seperatly,
-but they can stay with the HTML using `keep-embedded` option.
+By default all the **embedded** scripts/styles in HTML will be put into JS/CSS sections seperatly,
+but they can stay with HTML using `--keep-embedded` or `--embed` option.
 
-```bash
-$ codepen index.html --keep-embedded
-```
+#### --data
+
+Output the prefiled data instead of open CodePen.
 
 
 ## References
