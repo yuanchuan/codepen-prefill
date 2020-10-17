@@ -7,6 +7,8 @@ const EXTERNAL = 'EXTERNAL';
 const LOCAL = 'LOCAL';
 const EMBEDDED = 'EMBEDDED';
 
+const LINE = '\n\n';
+
 function getType(url) {
   if (typeof url === "undefined" || !url.length) return EMBEDDED;
   if (/^http|^\/{2}.+/.test(url)) return EXTERNAL;
@@ -60,9 +62,9 @@ function getContent($, $elements, options) {
         $cloned = $elem.clone();
 
         if (tag == 'style') {
-          $head.append($cloned);
+          $head.append($cloned + LINE);
         } else {
-          $body.append($cloned);
+          $body.append($cloned + LINE);
         }
       } else {
         let result = $elem.html();
@@ -74,11 +76,11 @@ function getContent($, $elements, options) {
     }
   });
 
-  $head.replaceWith($head.html())
+  $head.replaceWith($head.html());
 
   return {
     external: unique(external).join(';'),
-    embedded: unique(embedded).join('\n\n')
+    embedded: unique(embedded).join(LINE)
   }
 }
 
