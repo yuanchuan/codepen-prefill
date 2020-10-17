@@ -64,7 +64,7 @@ Usage:
   codepen-prefill <filename>
 
 Options:
-  --keep-embedded: Keep embedded styles/scripts inside html
+  --keep-embedded: Keep embedded styles/scripts inside html (alias: --embed)
   --data:          Output the prefilled data
   --help:          Display help info
 

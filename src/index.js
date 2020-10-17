@@ -28,7 +28,7 @@ try {
 
 const { data, error } = getData(sourceContent, {
   extname,
-  keepEmbedded: inputOptions.includes('--keep-embedded')
+  keepEmbedded: inputOptions.includes('--keep-embedded') || inputOptions.includes('--embed')
 });
 
 if (error) {
@@ -60,7 +60,7 @@ Usage:
   codepen <filename>
 
 Options:
-  --keep-embedded: Keep embedded styles/scripts inside html
+  --keep-embedded: Keep embedded styles/scripts inside html (alias: --embed)
   --data:          Output the prefilled data
   --help:          Display help info
 
