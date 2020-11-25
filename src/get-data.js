@@ -15,6 +15,26 @@ function getType(url) {
   return LOCAL;
 }
 
+function getProcessor($elem) {
+  let attr = $elem.attr('type') || '';
+  let [text, type = text] = String(attr).split('/');
+  let processors = {
+    less: 'less',
+    scss: 'scss',
+    sass: 'sass',
+    stylus: 'stylus',
+
+    coffeescript: 'coffeescript',
+    livescript: 'livescript',
+    typescript: 'typescript',
+    babel: 'babel',
+
+    // babel for ES module
+    module: 'babel',
+  };
+  return processors[type] || 'none';
+}
+
 function getUrl($elem) {
   let tagName = $elem.get(0).tagName;
   let name = tagName == 'script' ? 'src' : 'href';
@@ -36,6 +56,8 @@ function unique(array) {
 function getContent($, $elements, options) {
   let external = [];
   let embedded = [];
+  let cssPreprocessor = 'none';
+  let jsPreprocessor = 'none';
   let $body = $('body');
   let $head = $('<div></div>').prependTo($body);
 
@@ -57,11 +79,12 @@ function getContent($, $elements, options) {
     }
 
     else if (type === EMBEDDED) {
+      let tag = $elem.get(0).tagName;
+
       if (options.keepEmbedded) {
-        let tag = $elem.get(0).tagName;
         $cloned = $elem.clone();
 
-        if (tag == 'style') {
+        if (tag === 'style') {
           $head.append($cloned + LINE);
         } else {
           $body.append($cloned + LINE);
@@ -70,6 +93,15 @@ function getContent($, $elements, options) {
         let result = $elem.html();
         if (result.length) {
           embedded.push(result);
+        }
+        let attrType = getProcessor($elem);
+        if (attrType !== 'none') {
+          if (tag === 'style' && cssPreprocessor === 'none') {
+            cssPreprocessor = attrType;
+          }
+          if (tag === 'script' && jsPreprocessor === 'none') {
+            jsPreprocessor = attrType;
+          }
         }
       }
       $elem.remove();
@@ -80,7 +112,9 @@ function getContent($, $elements, options) {
 
   return {
     external: unique(external).join(';'),
-    embedded: unique(embedded).join(LINE)
+    embedded: unique(embedded).join(LINE),
+    cssPreprocessor,
+    jsPreprocessor
   }
 }
 
@@ -99,10 +133,11 @@ function getHTMLData(input, options = {}) {
   let title = $('title').eq(0).text();
   let description = $('meta[name="description"]').eq(0).attr('content') || '';
   let $styles = $('style, link[rel="stylesheet"]');
+
   let $scripts = $('script').filter(function() {
     let $elem = $(this);
     let type = $elem.attr('type');
-    if (!type || type === 'text/javascript') {
+    if (!type || type === 'text/javascript' || type == 'module') {
       return true;
     }
     // scripts like shader/fragment
@@ -116,9 +151,11 @@ function getHTMLData(input, options = {}) {
 
   let html = format.trimEmptyLines($body.html());
   let css = format.normalizeIndent(styleContent.embedded);
-  let js = format.trimEmptyLines(scriptContent.embedded);
+  let js = format.normalizeIndent(format.trimEmptyLines(scriptContent.embedded));
   let css_external = styleContent.external;
   let js_external = scriptContent.external;
+  let js_pre_processor = scriptContent.jsPreprocessor;
+  let css_pre_processor = styleContent.cssPreprocessor;
 
   let editors = getEditorsFlag({ html, css, js });
 
@@ -130,7 +167,9 @@ function getHTMLData(input, options = {}) {
     css,
     js,
     css_external,
-    js_external
+    js_external,
+    js_pre_processor,
+    css_pre_processor
   }
 }
 
