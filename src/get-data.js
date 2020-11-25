@@ -32,7 +32,7 @@ function getProcessor($elem) {
     // babel for ES module
     module: 'babel',
   };
-  return processors[type] || 'none';
+  return processors[type] || '';
 }
 
 function getUrl($elem) {
@@ -95,7 +95,7 @@ function getContent($, $elements, options) {
           embedded.push(result);
         }
         let attrType = getProcessor($elem);
-        if (attrType !== 'none') {
+        if (attrType) {
           if (tag === 'style' && cssPreprocessor === 'none') {
             cssPreprocessor = attrType;
           }
@@ -136,8 +136,8 @@ function getHTMLData(input, options = {}) {
 
   let $scripts = $('script').filter(function() {
     let $elem = $(this);
-    let type = $elem.attr('type');
-    if (!type || type === 'text/javascript' || type == 'module') {
+    let processor = getProcessor($elem);
+    if (processor) {
       return true;
     }
     // scripts like shader/fragment
